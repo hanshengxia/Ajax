@@ -35,7 +35,7 @@
 			border-radius:5px;
 			height:40px;
 			line-height: 40px;
-			width:450px;
+			width:430px;
 			margin-left: 30px;
 			background: #fff;
 			float:left;
@@ -52,7 +52,7 @@
 			display: block;
 			height: 40px;
 			border:none;
-			width:329px;
+			width:309px;
 			padding:0 10px;
 			border-top-right-radius: 5px;
 			border-bottom-right-radius: 5px;
@@ -119,13 +119,13 @@
 
 		$(".mobile-search").click(function(){
 			//MaxLen($input.get(0));//验证位数
+			$('.result span').last().remove();
 			var flag = geshi.test($input.val());
 			if(!flag){
 				alert("手机号不合法");
 				$input.val('')
 				$input.focus();
 			}else{
-				$('.result span').last().remove();
 				$.ajax({
 					type:'GET',
 					url:'http://sj.apidata.cn/?mobile=' + $input.val(),
@@ -141,8 +141,10 @@
 						       city = result.data.city,//归属地城市名称
 						       types = result.data.types;//手机号码卡信息  
 							$(".result").append('<span>'+mobile+' '+ province +city+' '+types+'</span>');
-						}else{
-							alert(data.message);
+						}else if(result.status == 0){
+							alert(result.message);
+							$input.val('')
+							$input.focus();
 						}
 					},
 					error:function(){
